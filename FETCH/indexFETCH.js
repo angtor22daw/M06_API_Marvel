@@ -50,6 +50,7 @@ async function ajaxFunction(cadena) {
             comic.thumbnail.extension = "jpg";
         }
 
+        // console.log(comic.id);
         // Llista dels personatges del comic
         var comicPersonatges = comic.characters.items;
         var llistaPersonatges = [];
@@ -78,5 +79,24 @@ async function ajaxFunction(cadena) {
     container.innerHTML = contentHTML;
 }
 
-// NECESAARIO AL FINAL
+const comicDaredevil = fetch('https://gateway.marvel.com/v1/public/comics/101084?apikey=476dc1b2d49f463c22c34cb1578bfdd0&hash=653580380735072c47d7edc8e4d8254a&ts=1');
+const comicSpiderman = fetch('https://gateway.marvel.com/v1/public/comics/69282?apikey=476dc1b2d49f463c22c34cb1578bfdd0&hash=653580380735072c47d7edc8e4d8254a&ts=1');
+
+Promise.race([comicDaredevil, comicSpiderman])
+  .then((comicGuanyador) => {
+
+    if (comicGuanyador.url === 'https://gateway.marvel.com/v1/public/comics/101084?apikey=476dc1b2d49f463c22c34cb1578bfdd0&hash=653580380735072c47d7edc8e4d8254a&ts=1') {
+      console.log('El comic de Daredevil ha cargado antes que el comic de Spiderman');
+
+    } else {
+      console.log('El comic de Spiderman ha cargado antes que el comic de Daredevil');
+    }
+  })
+  .catch((error) => {
+    console.error('ERROR RACE', error);
+});
+
+
+
+// NECESARIO AL FINAL
 window.addEventListener("load", inici, true);
