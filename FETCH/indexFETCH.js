@@ -79,6 +79,7 @@ async function ajaxFunction(cadena) {
     container.innerHTML = contentHTML;
 }
 
+
 const comicDaredevil = fetch('https://gateway.marvel.com/v1/public/comics/101084?apikey=476dc1b2d49f463c22c34cb1578bfdd0&hash=653580380735072c47d7edc8e4d8254a&ts=1');
 const comicSpiderman = fetch('https://gateway.marvel.com/v1/public/comics/69282?apikey=476dc1b2d49f463c22c34cb1578bfdd0&hash=653580380735072c47d7edc8e4d8254a&ts=1');
 
@@ -96,7 +97,22 @@ Promise.race([comicDaredevil, comicSpiderman])
     console.error('ERROR RACE', error);
 });
 
+const comicQuick = fetch('https://gateway.marvel.com/v1/public/comics/59539?apikey=476dc1b2d49f463c22c34cb1578bfdd0&hash=653580380735072c47d7edc8e4d8254a&ts=1');
+const comicGalactus = fetch('https://gateway.marvel.com/v1/public/comics/104775?apikey=476dc1b2d49f463c22c34cb1578bfdd0&hash=653580380735072c47d7edc8e4d8254a&ts=1');
+const comicVenom = fetch('https://gateway.marvel.com/v1/public/comics/64734?apikey=476dc1b2d49f463c22c34cb1578bfdd0&hash=653580380735072c47d7edc8e4d8254a&ts=1');
 
+Promise.all([comicQuick, comicGalactus, comicVenom])
+  .then(responses => {
+    return Promise.all(responses.map(response => response.json()));
+  })
+  .then(jsonParal => {
+    jsonParal.forEach(json => {
+      console.log('Comic: ', json.data.results[0].title);
+    });
+  })
+  .catch(error => {
+    console.error('ERROR PARALE·LAS', error);
+  });
 
 // NECESARIO AL FINAL
 window.addEventListener("load", inici, true);

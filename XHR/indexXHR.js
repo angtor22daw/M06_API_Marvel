@@ -2,6 +2,30 @@ var xhr;
 
 function inici() {
 
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/public/imatges/comic.png', true);
+    xhr.responseType = 'blob';
+
+    xhr.onload = function (e) {
+        if (this.status == 200) {
+            var blob = this.response;
+            // console.log(blob);
+            var output = document.createElement('img');
+            var URL = window.URL || window.webkitURL;
+            output.src = URL.createObjectURL(blob);
+
+            output.width = 50;
+            output.height = 50;
+            output.style.marginTop = "-15px";
+            output.style.marginLeft = "90%";
+            output.style.transform = "rotate(350deg)";
+
+            document.getElementById('header').appendChild(output);
+        };
+
+    };
+    xhr.send();
+    
     // const container = document.querySelector('#comics');
 
     document.getElementById("cercar").onkeyup = function () {
@@ -84,8 +108,6 @@ function ajaxFunction(cadena) {
             }
             const container = document.querySelector('#comics');
             container.innerHTML = contentHTML;
-        } else if (this.readyState === 4) {
-            console.log('Request failed. Status code: ' + this.status);
         }
     };
 
