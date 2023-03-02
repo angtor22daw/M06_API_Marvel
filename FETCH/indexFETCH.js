@@ -1,25 +1,4 @@
-var xhr;
-
 function inici() {
-    try {
-        // Firefox, Opera 8.0+, Safari, Chrome
-        xhr = new XMLHttpRequest();
-    } catch (e) {
-        // Internet Explorer
-        try {
-            xhr = new ActiveXObject("Msxml2.XMLHTTP");
-            //ie6+
-        } catch (e) {
-            try {
-                xhr = new ActiveXObject("Microsoft.XMLHTTP");
-                //ie5
-            } catch (e) {
-                alert("El teu navegador no suporta AJAX!");
-                return false;
-            }
-        }
-    }
-
     // const container = document.querySelector('#comics');
 
     document.getElementById("cercar").onkeyup = function () {

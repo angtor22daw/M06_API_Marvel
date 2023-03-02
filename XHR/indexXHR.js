@@ -1,24 +1,6 @@
 var xhr;
 
 function inici() {
-    try {
-        // Firefox, Opera 8.0+, Safari, Chrome
-        xhr = new XMLHttpRequest();
-    } catch (e) {
-        // Internet Explorer
-        try {
-            xhr = new ActiveXObject("Msxml2.XMLHTTP");
-            //ie6+
-        } catch (e) {
-            try {
-                xhr = new ActiveXObject("Microsoft.XMLHTTP");
-                //ie5
-            } catch (e) {
-                alert("El teu navegador no suporta AJAX!");
-                return false;
-            }
-        }
-    }
 
     // const container = document.querySelector('#comics');
 
@@ -58,11 +40,16 @@ function inici() {
 }
 
 function ajaxFunction(cadena) {
+
+    xhr = new XMLHttpRequest();
+
+    xhr.responseType = 'json';
+
     const urlAPI = `https://gateway.marvel.com:443/v1/public/comics?titleStartsWith=${cadena}&apikey=476dc1b2d49f463c22c34cb1578bfdd0&hash=653580380735072c47d7edc8e4d8254a&ts=1`;
     
     xhr.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            const json = JSON.parse(this.responseText);
+            const json = this.response;
             let contentHTML = '';
 
             for (const comic of json.data.results) {

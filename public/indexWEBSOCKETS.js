@@ -28,10 +28,10 @@ function inici() {
         socket.emit('dadesDesDelClient', {
             dades: this.value
         });
-        console.log("fumo?");
+
         socket.on('dadesAPI', function (data) {
             console.log('CLIENT -> dades rebudes del servidor WEBSOCKET->' + data.dades);
-            // AHORA A LEER EL JSON Y A PINTARLO EN EL HTML
+
             let contentHTML = '';
 
             for (const comic of data.dades.data.results) {
@@ -39,12 +39,28 @@ function inici() {
                     comic.thumbnail.path = "../public/imatges/marvelComics";
                     comic.thumbnail.extension = "jpg";
                 }
+
+                // Llista dels personatges del comic
+                var comicPersonatges = comic.characters.items;
+                var llistaPersonatges = [];
+                for (var i = 0; i < comicPersonatges.length; i++) {
+                    llistaPersonatges.push(comicPersonatges[i].name);
+                }
+                comic.characters = llistaPersonatges.join(", ");
+                comic.characters = comic.characters ? comic.characters : "No s'ha trobat cap personatge.";
+
+                // Descripció del comic
+                var comicDescription = comic.description ? comic.description : "No s'ha trobat cap descripció.";
+                
+                // Portada del comic imatge + titol
                 contentHTML += `
                 <div class="divComic">
-                    <img class="imgComic" src="${comic.thumbnail.path}.${comic.thumbnail.extension}" alt="${comic.title}">
-                    <h2 class="comicTitulo">${comic.title}</h2>
-                    <p class="comicDescripcion">${comic.description}</p>
-                    <p class="comicPersonatges">${comic.characters.available}</p>
+                    <img class="imgComic" src="${comic.thumbnail.path}.${comic.thumbnail.extension}"  alt="${comic.title}">
+                    <div class="comicData">
+                        <p class="comicTitulo">${comic.title}</p>
+                        <p class="comicDescripcion">${comicDescription}</p>
+                        <p class="comicPersonatges">${comic.characters}</p>
+                    </div>
                 </div>
             `;
             }

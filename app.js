@@ -15,13 +15,13 @@ app.use(express.static('public/imatges'));
 // app.use(express.static(path.join(__dirname, 'public')));
 // app.use(express.static(path.join(__dirname, 'public/imatges')));
 
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
+// app.get('/', (req, res) => {
+//     res.sendFile(__dirname + '/index.html');
+// });
 
-app.get('/style.css', (req, res) => {
-    res.sendFile(__dirname + '/style.css');
-});
+// app.get('/style.css', (req, res) => {
+//     res.sendFile(__dirname + '/style.css');
+// });
 
 app.get('/public/imatges/wallpaper.jpg', (req, res) => {
     res.sendFile(__dirname + '/public/imatges/wallpaper.jpg');
@@ -32,8 +32,6 @@ app.get('/public/imatges/marvelComics.jpg', (req, res) => {
 });
 wss.on('connection', (ws) => {
     console.log('usuari connectat')
-
-
 });
 
 io.on('connection', (socket) => {
